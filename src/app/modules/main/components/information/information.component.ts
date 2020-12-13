@@ -12,9 +12,9 @@ import { ProductService } from '../../../../services/product.service';
   templateUrl: './information.component.html',
   styleUrls: ['./information.component.scss']
 })
-export class InformationComponent implements OnInit {  
+export class InformationComponent implements OnInit {
 
-  displayedColumns: string[] = ['id', 'name', 'category', 'price', 'stock'];
+  displayedColumns: string[] = ['id', 'name', 'category', 'price', 'stock', 'actions'];
   dataSource: MatTableDataSource<User>;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -42,11 +42,20 @@ export class InformationComponent implements OnInit {
   async information() {
     try {
       const res: any = await this.productService.getProducts();
-      console.log(res);
       this.dataSource = new MatTableDataSource(res.data);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
       this.toastrService.success("Listar productos");
+    } catch (error: any) {
+      this.toastrService.error("Productos no encontrados");
+    }
+  }
+
+  async delete(id) {
+    try {
+      const res: any = await this.productService.deleteProduct(id);
+      this.toastrService.success("Producto eliminado");
+      this.information();
     } catch (error: any) {
       this.toastrService.error("Productos no encontrados");
     }

@@ -28,6 +28,22 @@ export class ProductService {
     });
   }
 
+  deleteProduct(id){
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Authorization': this.getToken()
+      })
+    };
+
+    return new Promise((res, rej) => {
+      this.http.delete(`${this._url}${this._paths.getProducts}/${id}`, httpOptions)
+        .subscribe((data: any) => {
+          data.status.error ? rej(data.message) : res(data);
+        }, (error: any) => rej(error));
+    });
+  }
+
   getToken(){
     return localStorage.getItem('token');
   }
