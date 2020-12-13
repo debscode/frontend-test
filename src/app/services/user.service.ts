@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from "../../environments/environment";
-import { Login } from '../types';
+import { Login } from '../models';
 
 @Injectable({
   providedIn: 'root'

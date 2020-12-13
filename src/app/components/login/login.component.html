@@ -8,14 +8,14 @@
                 <mat-label>Correo</mat-label>
                 <input matInput class="form-control" id="emaillogin" aria-describedby="emailHelp" name="email" formControlName="email">
                 <mat-error *ngIf="emailInvalid">
-                    Correo es <strong>requerido</strong>
+                    Correo es requerido
                 </mat-error>
             </mat-form-field>
             <mat-form-field appearance="legacy" class="item-form-field">
                 <mat-label>Contraseña</mat-label>
                 <input matInput type="password" class="form-control" id="password" name="password" formControlName="password">
                 <mat-error *ngIf="passwordInvalid">
-                    Contraseña de usuario es <strong>requerida</strong>
+                    Contraseña es requerida
                 </mat-error>
             </mat-form-field>
             <button type="submit" mat-raised-button *ngIf="!loading">Ingresar</button>

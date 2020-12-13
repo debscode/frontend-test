@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrsService } from 'src/app/services/toastrs.service';
 import { UserService } from 'src/app/services/user.service';
-import { Login } from 'src/app/types';
+import { Login } from 'src/app/models';
 
 @Component({
   selector: 'app-login',
