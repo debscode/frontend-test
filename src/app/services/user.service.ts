@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from "../../environments/environment";
-import { Login } from '../models';
+import { Login, User } from '../models';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +13,7 @@ export class UserService {
   private _userEmail: string;
   private _paths: any = {
     login: '/login',
+    register: '/users',
   }
 
   constructor(private http: HttpClient) { }
@@ -55,6 +56,27 @@ export class UserService {
 
     return new Promise((res, rej) => {
       this.http.post(`${this._url}${this._paths.login}`, body.toString(), httpOptions)
+        .subscribe((data: any) => {
+          data.status.error ? rej(data.message) : res(data.data);
+        }, (error: any) => rej(error));
+    });
+  }
+
+  register(req: User) {
+    const body = new HttpParams()
+      .set('name', req.name)
+      .set('last_name', req.last_name)
+      .set('email', req.email)
+      .set('password', req.password);
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/x-www-form-urlencoded'
+      })
+    };
+
+    return new Promise((res, rej) => {
+      this.http.post(`${this._url}${this._paths.register}`, body.toString(), httpOptions)
         .subscribe((data: any) => {
           data.status.error ? rej(data.message) : res(data.data);
         }, (error: any) => rej(error));

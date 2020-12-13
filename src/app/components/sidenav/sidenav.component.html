@@ -1,9 +1,21 @@
 <div class="example-container" [class.example-is-mobile]="mobileQuery.matches">
     <mat-toolbar color="primary" class="example-toolbar">
-        <button mat-icon-button (click)="snav.toggle()"><mat-icon>menu</mat-icon></button>
-        <h1 class="example-app-name">Responsive App</h1>
+        <button mat-icon-button (click)="snav.toggle()">
+            <mat-icon>menu</mat-icon>
+        </button>
+        <img src="assets/images/png/logo.png" alt="Smartsoft Labs" class="logo">
+        <h1 class="example-app-name">Test Smartsoft Labs</h1>
+        <div class="user">
+            <img src="assets/images/png/user.png" alt="Smartsoft Labs" class="user-img">
+        </div>
+        <mat-form-field>
+            <mat-select #mode value="side">
+                <mat-option value="side">User</mat-option>
+                <mat-option value="edit" routerLink="user">Editar</mat-option>
+                <mat-option value="logout" (click)="logout()">Cerrar sessión</mat-option>
+            </mat-select>
+        </mat-form-field>
     </mat-toolbar>
-
     <mat-sidenav-container class="example-sidenav-container" [style.marginTop.px]="mobileQuery.matches ? 56 : 0">
         <mat-sidenav #snav [mode]="mobileQuery.matches ? 'over' : 'side'" [fixedInViewport]="mobileQuery.matches" fixedTopGap="56">
             <mat-nav-list>
@@ -14,7 +26,9 @@
         <mat-sidenav-content>
             <div class="content">
                 <div class="main">
-                    <ng-content></ng-content>
+                    <div class="container">
+                        <ng-content></ng-content>
+                    </div>
                 </div>
                 <div class="footer">
                     &copy; 2020 Daniel Burbano

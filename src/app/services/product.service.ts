@@ -23,7 +23,7 @@ export class ProductService {
     return new Promise((res, rej) => {
       this.http.get(`${this._url}${this._paths.getProducts}`, httpOptions)
         .subscribe((data: any) => {
-          data.status.error ? rej(data.message) : res(data.data);
+          data.status.error ? rej(data.message) : res(data);
         }, (error: any) => rej(error));
     });
   }

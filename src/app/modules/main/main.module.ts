@@ -7,14 +7,17 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { InformationComponent } from './components/information/information.component';
 import { SidenavComponent } from '../../components/sidenav/sidenav.component';
 import { AngularMaterialModule } from '../angular-material.module';
+import { ChartsModule } from 'ng2-charts';
+import { UserComponent } from './components/user/user.component';
 
 
 @NgModule({
-  declarations: [MainComponent, DashboardComponent, InformationComponent, SidenavComponent],
+  declarations: [MainComponent, DashboardComponent, InformationComponent, SidenavComponent, UserComponent],
   imports: [
     CommonModule,
     MainRoutingModule,
-    AngularMaterialModule
+    AngularMaterialModule,
+    ChartsModule
   ]
 })
 export class MainModule { }
