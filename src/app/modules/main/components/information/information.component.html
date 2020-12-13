@@ -41,7 +41,7 @@
         <ng-container matColumnDef="actions">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Acciones </th>
             <td mat-cell *matCellDef="let row">
-                <mat-icon>edit</mat-icon>
+                <mat-icon (click)="openDialogEdit(row.id)">edit</mat-icon>
                 <mat-icon (click)="delete(row.id)">delete_forever</mat-icon>
             </td>
         </ng-container>

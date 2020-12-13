@@ -1,0 +1,35 @@
+<form autocomplete="off" class="item-form" [formGroup]="form" (ngSubmit)="submit()">
+    <mat-form-field appearance="legacy" class="item-form-field">
+        <mat-label>Nombre</mat-label>
+        <input matInput class="form-control" id="nameproduct" aria-describedby="nameHelp" name="name" formControlName="name">
+        <mat-error *ngIf="nameInvalid">
+            Nombre es requerido
+        </mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+        <mat-label>Categoria</mat-label>
+        <mat-select name="category" formControlName="category">
+            <mat-option *ngFor="let category of categories" [value]="category">
+                {{category}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="legacy" class="item-form-field">
+        <mat-label>Precio</mat-label>
+        <input type="number" matInput class="form-control" id="priceproduct" aria-describedby="priceHelp" name="price" formControlName="price">
+        <mat-error *ngIf="priceInvalid">
+            Precio es requerido
+        </mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="legacy" class="item-form-field">
+        <mat-label>Stock</mat-label>
+        <input type="number" matInput class="form-control" id="stockproduct" aria-describedby="stockHelp" name="stock" formControlName="stock">
+        <mat-error *ngIf="stockInvalid">
+            Stock es requerido
+        </mat-error>
+    </mat-form-field>
+    <div mat-dialog-actions>
+        <button type="button" mat-button (click)="onNoClick()">Cancelar</button>
+        <button type="submit" mat-button cdkFocusInitial>Actualizar</button>
+    </div>
+</form>

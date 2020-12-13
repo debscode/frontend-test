@@ -1,14 +1,15 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from "../../environments/environment";
+import { Product } from '../models';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductService {
-  private _url = environment.url;  
+  private _url = environment.url;
   private _paths: any = {
-    getProducts: '/products',
+    products: '/products',
   }
   constructor(private http: HttpClient) { }
 
@@ -21,14 +22,14 @@ export class ProductService {
     };
 
     return new Promise((res, rej) => {
-      this.http.get(`${this._url}${this._paths.getProducts}`, httpOptions)
+      this.http.get(`${this._url}${this._paths.products}`, httpOptions)
         .subscribe((data: any) => {
           data.status.error ? rej(data.message) : res(data);
         }, (error: any) => rej(error));
     });
   }
 
-  deleteProduct(id){
+  deleteProduct(id) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/x-www-form-urlencoded',
@@ -37,14 +38,35 @@ export class ProductService {
     };
 
     return new Promise((res, rej) => {
-      this.http.delete(`${this._url}${this._paths.getProducts}/${id}`, httpOptions)
+      this.http.delete(`${this._url}${this._paths.products}/${id}`, httpOptions)
         .subscribe((data: any) => {
           data.status.error ? rej(data.message) : res(data);
         }, (error: any) => rej(error));
     });
   }
 
-  getToken(){
+  editProduct(req) {
+    const body = new HttpParams()
+      .set('name', req.name)
+      .set('category', req.category)
+      .set('price', req.price)
+      .set('stock', req.stock);
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Authorization': this.getToken()
+      })
+    };
+
+    return new Promise((res, rej) => {
+      this.http.put(`${this._url}${this._paths.products}/${req.id}`, body.toString(), httpOptions)
+        .subscribe((data: any) => {
+          data.status.error ? rej(data.message) : res(data);
+        }, (error: any) => rej(error));
+    });
+  }
+
+  getToken() {
     return localStorage.getItem('token');
   }
 

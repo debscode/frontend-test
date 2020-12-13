@@ -1,11 +1,12 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { User } from 'src/app/models';
+import { Product } from 'src/app/models';
 import { ToastrsService } from 'src/app/services/toastrs.service';
 import { ProductService } from '../../../../services/product.service';
-
 
 @Component({
   selector: 'app-information',
@@ -15,14 +16,15 @@ import { ProductService } from '../../../../services/product.service';
 export class InformationComponent implements OnInit {
 
   displayedColumns: string[] = ['id', 'name', 'category', 'price', 'stock', 'actions'];
-  dataSource: MatTableDataSource<User>;
+  dataSource: MatTableDataSource<Product>;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
   constructor(
     private productService: ProductService,
-    private toastrService: ToastrsService
+    private toastrService: ToastrsService,
+    public dialog: MatDialog,
   ) { }
 
   ngOnInit(): void {
@@ -43,6 +45,7 @@ export class InformationComponent implements OnInit {
     try {
       const res: any = await this.productService.getProducts();
       this.dataSource = new MatTableDataSource(res.data);
+      console.log(this.dataSource);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
       this.toastrService.success("Listar productos");
@@ -59,6 +62,90 @@ export class InformationComponent implements OnInit {
     } catch (error: any) {
       this.toastrService.error("Productos no encontrados");
     }
+  }
+
+  openDialogEdit(id): void {
+    const product = this.dataSource.data.find(prod => prod.id === id);
+    console.log(product);
+    if (product) {
+      const dialogRef = this.dialog.open(InformationDialogComponent, {
+        width: '250px',
+        data: product
+      });
+      dialogRef.afterClosed().subscribe(result => {
+        if (result) {
+          this.information();
+        }
+      });
+    }
+  }
+
+}
+
+@Component({
+  selector: 'app-information-dialog-component',
+  templateUrl: './information-dialog.html',
+})
+export class InformationDialogComponent implements OnInit {
+
+  form: FormGroup;
+  categories: string[] = ["Bebidas", "Enlatados", "Salsas", "Granos"];
+
+  constructor(
+    public dialogRef: MatDialogRef<InformationDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: Product, private formBuilder: FormBuilder,
+    private toastrService: ToastrsService,
+    private productService: ProductService) { }
+
+
+  ngOnInit(): void {
+    this.form = this.formBuilder.group({
+      name: [this.data.name, [Validators.required]],
+      category: [this.data.category, [Validators.required]],
+      price: [this.data.price, [Validators.required]],
+      stock: [this.data.stock, [Validators.required]],
+    });
+  }
+
+  get nameInvalid() {
+    return this.form.get('name').invalid && this.form.get('name').touched;
+  }
+  get categoryInvalid() {
+    return this.form.get('category').invalid && this.form.get('category').touched;
+  }
+  get priceInvalid() {
+    return this.form.get('price').invalid && this.form.get('price').touched;
+  }
+  get stockInvalid() {
+    return this.form.get('stock').invalid && this.form.get('stock').touched;
+  }
+
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
+
+  async submit() {
+    if (this.form.invalid) {
+      this.toastrService.error("Ingresar campos obligatorios");
+      return Object.values(this.form.controls).forEach(control => {
+        control.markAsTouched();
+      });
+    }
+    const request: Product = {
+      id: this.data.id,
+      name: this.form.controls.name.value,
+      category: this.form.controls.category.value,
+      price: this.form.controls.price.value,
+      stock: this.form.controls.stock.value
+    };
+    try {
+      const res: any = await this.productService.editProduct(request);
+      this.toastrService.success("Actualización exitosa");
+      this.dialogRef.close(true);
+    } catch (error: any) {
+      this.toastrService.error("Nombre ya existente, por favor ingresa otro");
+    }
+
   }
 
 }
