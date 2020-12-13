@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ToastrsService } from 'src/app/services/toastrs.service';
 import { UserService } from 'src/app/services/user.service';
 import { Login } from 'src/app/types';
 
@@ -11,10 +12,12 @@ import { Login } from 'src/app/types';
 export class LoginComponent implements OnInit {
 
   form: FormGroup;
+  loading: boolean = false;
 
   constructor(
     private formBuilder: FormBuilder,
-    private userService: UserService
+    private userService: UserService,
+    private toastrService: ToastrsService
   ) { }
 
   ngOnInit(): void {
@@ -39,11 +42,14 @@ export class LoginComponent implements OnInit {
   }
 
   async submit() {
+    this.loading = true;
     if (this.form.invalid) {
+      this.loading = false;
+      this.toastrService.error("Correo y contraseña son obligatorios");
       return Object.values(this.form.controls).forEach(control => {
         control.markAsTouched();
       });
-    }    
+    }
     const request: Login = {
       email: this.form.controls.email.value,
       password: this.form.controls.password.value
@@ -52,9 +58,11 @@ export class LoginComponent implements OnInit {
       const res: any = await this.userService.login(request);
       localStorage.setItem('token', res.token);
       localStorage.setItem('email', res.user.email);
-    } catch (error) {
-      console.log(error);
+      this.toastrService.success("Inicio de sesión exitoso");
+    } catch (error: any) {
+      this.toastrService.error("Correo o contraseña incorrectos");
     }
+    this.loading = false;
   }
 
 }

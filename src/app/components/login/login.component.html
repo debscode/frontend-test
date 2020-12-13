@@ -18,7 +18,8 @@
                     Contraseña de usuario es <strong>requerida</strong>
                 </mat-error>
             </mat-form-field>
-            <button type="submit" mat-raised-button>Ingresar</button>
+            <button type="submit" mat-raised-button *ngIf="!loading">Ingresar</button>
+            <mat-spinner *ngIf="loading"></mat-spinner>
             <div class="register">
                 Registrarse
             </div>
