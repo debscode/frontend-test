@@ -1,0 +1,44 @@
+@import '../../../assets/styles/index.scss';
+.login {
+    &-container {
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        .item {
+            width: 50%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            @media screen and (max-width: 768px) {
+                width: 100%;
+                &:first-of-type {
+                    display: none;
+                }
+            }
+            &-form {
+                padding: 3rem;
+                background-color: #ededed;
+                display: flex;
+                border-radius: 1.25rem;
+                justify-content: stretch;
+                align-items: center;
+                flex-direction: column;
+                .register {
+                    width: 100%;
+                    color: $primary;
+                    text-align: right;
+                    &:hover {
+                        cursor: pointer;
+                    }
+                    padding-top: 1.25rem;
+                    margin-top: 1rem;
+                    border-top: 0.005px solid $border-grey;
+                }
+                &-field {
+                    margin-bottom: 1.25rem;
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,9 @@
+@import '../assets/styles/index.scss';
+::ng-deep {
+    .mat-form-field.mat-focused .mat-form-field-label {
+        color: $primary;
+    }
+    .mat-form-field.mat-focused .mat-form-field-ripple {
+        background-color: $primary;
+    }
+}

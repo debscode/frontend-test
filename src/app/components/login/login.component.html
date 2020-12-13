@@ -1,10 +1,27 @@
 <div class="login-container">
-    <div class="left">
-        <img src="" alt="">
+    <div class="item">
+        <img src="assets/images/png/login_icon.png" alt="login_icon">
     </div>
-    <div class="right">
-        <form autocomplete="off">
-            <input type="text" name="" id="">
+    <div class="item">
+        <form autocomplete="off" class="item-form" [formGroup]="form" (ngSubmit)="submit()">
+            <mat-form-field appearance="legacy" class="item-form-field">
+                <mat-label>Correo</mat-label>
+                <input matInput class="form-control" id="emaillogin" aria-describedby="emailHelp" name="email" formControlName="email">
+                <mat-error *ngIf="emailInvalid">
+                    Correo es <strong>requerido</strong>
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="legacy" class="item-form-field">
+                <mat-label>Contraseña</mat-label>
+                <input matInput type="password" class="form-control" id="password" name="password" formControlName="password">
+                <mat-error *ngIf="passwordInvalid">
+                    Contraseña de usuario es <strong>requerida</strong>
+                </mat-error>
+            </mat-form-field>
+            <button type="submit" mat-raised-button>Ingresar</button>
+            <div class="register">
+                Registrarse
+            </div>
         </form>
     </div>
 </div>
