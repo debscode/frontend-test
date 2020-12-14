@@ -34,6 +34,9 @@ export class DashboardComponent implements OnInit {
     this.dashboard();
   }
 
+  /**
+   * Load dashboard with pie-chart
+   */
   async dashboard() {
     try {
       this.loading = true;
@@ -46,7 +49,7 @@ export class DashboardComponent implements OnInit {
         this.pieChartData.push(product.stock);
       });
       monkeyPatchChartJsTooltip();
-      monkeyPatchChartJsLegend();      
+      monkeyPatchChartJsLegend();
     } catch (error: any) {
       this.toastrService.error("Productos no encontrados");
     }

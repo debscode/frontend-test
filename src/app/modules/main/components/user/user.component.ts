@@ -27,8 +27,8 @@ export class UserComponent implements OnInit {
   }
 
   /**
- * createForm creates register form
- */
+   * Creates register form
+   */
   createForm(): void {
     this.form = this.formBuilder.group({
       name: [this.user.name, [Validators.required]],
@@ -38,6 +38,7 @@ export class UserComponent implements OnInit {
     });
   }
 
+  //not valid getters
   get nameRInvalid() {
     return this.form.get('name').invalid && this.form.get('name').touched;
   }
@@ -51,6 +52,9 @@ export class UserComponent implements OnInit {
     return this.form.get('password').invalid && this.form.get('password').touched;
   }
 
+  /**
+   * Send request to update user
+   */
   async submit() {
     this.loading = true;
     if (this.form.invalid) {
@@ -77,19 +81,22 @@ export class UserComponent implements OnInit {
     this.loading = false;
   }
 
+  /**
+   * Get user information
+   */
   async getUserInfo() {
     this.loading = true;
     this.userId = this.userService.readUserId();
     try {
       const res: any = await this.userService.getUser(this.userId);
       console.log(res);
-      
+
       this.user = res;
       this.createForm();
     } catch (error) {
       this.toastrService.error("Ocurrio un error por favor intenta nuevamente");
     }
-    this.loading = false;    
+    this.loading = false;
   }
 
 }

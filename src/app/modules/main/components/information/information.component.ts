@@ -31,28 +31,37 @@ export class InformationComponent implements OnInit {
     this.information();
   }
 
-
+  /**
+   * Apply filter on data table
+   * @param event 
+   */
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
-
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
   }
 
+  /**
+   * Load data table with response from products
+   */
   async information() {
     try {
       const res: any = await this.productService.getProducts();
       this.dataSource = new MatTableDataSource(res.data);
       console.log(this.dataSource);
       this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;      
+      this.dataSource.sort = this.sort;
     } catch (error: any) {
       this.toastrService.error("Productos no encontrados");
     }
   }
 
+  /**
+   * Delete a product
+   * @param id 
+   */
   async delete(id) {
     try {
       const res: any = await this.productService.deleteProduct(id);
@@ -63,6 +72,10 @@ export class InformationComponent implements OnInit {
     }
   }
 
+  /**
+   * Show a dialog to edit product
+   * @param id 
+   */
   openDialogEdit(id): void {
     const product = this.dataSource.data.find(prod => prod.id === id);
     console.log(product);
@@ -120,6 +133,8 @@ export class InformationDialogComponent implements OnInit {
     });
   }
 
+  //not valid getters
+
   get nameInvalid() {
     return this.form.get('name').invalid && this.form.get('name').touched;
   }
@@ -137,6 +152,9 @@ export class InformationDialogComponent implements OnInit {
     this.dialogRef.close();
   }
 
+  /**
+   * send a request to update or create product
+   */
   async submit() {
     if (this.form.invalid) {
       this.toastrService.error("Ingresar campos obligatorios");

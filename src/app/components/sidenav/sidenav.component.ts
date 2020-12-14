@@ -32,9 +32,13 @@ export class SidenavComponent implements OnDestroy {
     this.mobileQuery.removeListener(this._mobileQueryListener);
   }
 
+  /**
+   * Logout and destroy a user session
+   */
   logout() {
     localStorage.removeItem('token');
     localStorage.removeItem('email');
+    localStorage.removeItem('user_id');
     this.router.navigateByUrl('login');
   }
 

@@ -29,7 +29,7 @@ export class LoginComponent implements OnInit {
   }
 
   /**
-   * createForm creates login form
+   * Creates login form
    */
   createForm(): void {
     this.form = this.formBuilder.group({
@@ -39,7 +39,7 @@ export class LoginComponent implements OnInit {
   }
 
   /**
-  * createForm creates register form
+  * Creates register form
   */
   createFormRegister(): void {
     this.formRegister = this.formBuilder.group({
@@ -50,7 +50,7 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  //Login
+  //Not valid gettes Login
   get emailInvalid() {
     return this.form.get('email').invalid && this.form.get('email').touched;
   }
@@ -58,7 +58,7 @@ export class LoginComponent implements OnInit {
     return this.form.get('password').invalid && this.form.get('password').touched;
   }
 
-  //Register
+  //Not valid gettes Register
   get nameRInvalid() {
     return this.formRegister.get('name').invalid && this.formRegister.get('name').touched;
   }
@@ -72,6 +72,9 @@ export class LoginComponent implements OnInit {
     return this.formRegister.get('password').invalid && this.formRegister.get('password').touched;
   }
 
+  /**
+   * Login user
+   */
   async submit() {
     this.loading = true;
     if (this.form.invalid) {
@@ -103,6 +106,9 @@ export class LoginComponent implements OnInit {
     this.isRegister = !this.isRegister;
   }
 
+  /**
+   * Create a new user
+   */
   async submitRegister() {
     this.loading = true;
     if (this.formRegister.invalid) {
