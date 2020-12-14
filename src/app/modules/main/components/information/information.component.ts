@@ -55,6 +55,10 @@ export class InformationComponent implements OnInit {
       this.dataSource.sort = this.sort;
     } catch (error: any) {
       this.toastrService.error("Productos no encontrados");
+      this.dataSource = new MatTableDataSource([]);
+      console.log(this.dataSource);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
     }
   }
 
