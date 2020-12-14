@@ -1,3 +1,4 @@
+@import '../../../../../assets/styles/index.scss';
 table {
     width: 100%;
 }
@@ -9,9 +10,25 @@ table {
 
 td,
 th {
-    width: 25%;
+    width: 12rem;
 }
 
 .mat-icon {
     cursor: pointer;
+}
+
+.add-btn {
+    background-color: $primary;
+    color: $font-light;
+}
+
+.btn-create {
+    width: 100%;
+    text-align: right;
+}
+
+.data-container {
+    width: 100%;
+    overflow: auto;
+    min-height: 22.5rem;
 }

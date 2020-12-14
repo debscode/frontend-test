@@ -47,8 +47,7 @@ export class InformationComponent implements OnInit {
       this.dataSource = new MatTableDataSource(res.data);
       console.log(this.dataSource);
       this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
-      this.toastrService.success("Listar productos");
+      this.dataSource.sort = this.sort;      
     } catch (error: any) {
       this.toastrService.error("Productos no encontrados");
     }
@@ -67,17 +66,19 @@ export class InformationComponent implements OnInit {
   openDialogEdit(id): void {
     const product = this.dataSource.data.find(prod => prod.id === id);
     console.log(product);
-    if (product) {
-      const dialogRef = this.dialog.open(InformationDialogComponent, {
-        width: '250px',
-        data: product
-      });
-      dialogRef.afterClosed().subscribe(result => {
-        if (result) {
-          this.information();
-        }
-      });
-    }
+    const dialogRef = this.dialog.open(InformationDialogComponent, {
+      width: '250px',
+      data: product
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.information();
+      }
+    });
+  }
+
+  createProduct() {
+    this.openDialogEdit(null);
   }
 
 }
@@ -85,11 +86,17 @@ export class InformationComponent implements OnInit {
 @Component({
   selector: 'app-information-dialog-component',
   templateUrl: './information-dialog.html',
+  styleUrls: ['./information.component.scss']
 })
 export class InformationDialogComponent implements OnInit {
 
   form: FormGroup;
   categories: string[] = ["Bebidas", "Enlatados", "Salsas", "Granos"];
+  nameProduct = '';
+  category = '';
+  price: any = '';
+  stock: any = '';
+  edit = false;
 
   constructor(
     public dialogRef: MatDialogRef<InformationDialogComponent>,
@@ -97,13 +104,19 @@ export class InformationDialogComponent implements OnInit {
     private toastrService: ToastrsService,
     private productService: ProductService) { }
 
-
   ngOnInit(): void {
+    if (this.data) {
+      this.edit = true;
+      this.nameProduct = this.data.name;
+      this.category = this.data.category;
+      this.price = this.data.price;
+      this.stock = this.data.stock;
+    }
     this.form = this.formBuilder.group({
-      name: [this.data.name, [Validators.required]],
-      category: [this.data.category, [Validators.required]],
-      price: [this.data.price, [Validators.required]],
-      stock: [this.data.stock, [Validators.required]],
+      name: [this.nameProduct, [Validators.required]],
+      category: [this.category, [Validators.required]],
+      price: [this.price, [Validators.required]],
+      stock: [this.stock, [Validators.required]],
     });
   }
 
@@ -131,16 +144,29 @@ export class InformationDialogComponent implements OnInit {
         control.markAsTouched();
       });
     }
+
+    let id: any;
+    if (this.data) {
+      id = this.data.id;
+    } else {
+      id = null;
+    }
+
     const request: Product = {
-      id: this.data.id,
+      id,
       name: this.form.controls.name.value,
       category: this.form.controls.category.value,
       price: this.form.controls.price.value,
       stock: this.form.controls.stock.value
     };
     try {
-      const res: any = await this.productService.editProduct(request);
-      this.toastrService.success("Actualización exitosa");
+      if (id) {
+        const res: any = await this.productService.editProduct(request);
+        this.toastrService.success("Actualización exitosa");
+      } else {
+        const res: any = await this.productService.createProduct(request);
+        this.toastrService.success("Producto creado correctamente");
+      }
       this.dialogRef.close(true);
     } catch (error: any) {
       this.toastrService.error("Nombre ya existente, por favor ingresa otro");

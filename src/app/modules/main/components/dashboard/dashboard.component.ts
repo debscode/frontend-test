@@ -18,8 +18,9 @@ export class DashboardComponent implements OnInit {
   public pieChartOptions: ChartOptions = {
     responsive: true,
   };
-  public pieChartLabels: Label[] = [['Download', 'Sales'], ['In', 'Store', 'Sales'], 'Mail Sales'];
-  public pieChartData: SingleDataSet = [300, 500, 100];
+  public loading = false;
+  public pieChartLabels: Label[] = [];
+  public pieChartData: SingleDataSet = [];
   public pieChartType: ChartType = 'pie';
   public pieChartLegend = true;
   public pieChartPlugins = [];
@@ -35,21 +36,21 @@ export class DashboardComponent implements OnInit {
 
   async dashboard() {
     try {
+      this.loading = true;
       const res: any = await this.productService.getProducts();
       console.log(res);
       this.totalProducts = res.count;
       this.products = res.data;
       res.data.forEach(product => {
         this.pieChartLabels.push([product.name, product.category]);
-        this.pieChartData.push([product.stock]);
+        this.pieChartData.push(product.stock);
       });
       monkeyPatchChartJsTooltip();
-      monkeyPatchChartJsLegend();
-
-      this.toastrService.success("Dashboard");
+      monkeyPatchChartJsLegend();      
     } catch (error: any) {
       this.toastrService.error("Productos no encontrados");
     }
+    this.loading = false;
   }
 
 }

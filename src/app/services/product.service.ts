@@ -58,8 +58,35 @@ export class ProductService {
       })
     };
 
+    console.log(body);
+
     return new Promise((res, rej) => {
       this.http.put(`${this._url}${this._paths.products}/${req.id}`, body.toString(), httpOptions)
+        .subscribe((data: any) => {
+          data.status.error ? rej(data.message) : res(data);
+        }, (error: any) => rej(error));
+    });
+  }
+
+  createProduct(req) {        
+    req.stock = parseInt(req.stock, 10);
+    const body = new HttpParams()
+      .set('name', req.name)
+      .set('category', req.category)
+      .set('price', req.price)
+      .set('stock', req.stock);
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Authorization': this.getToken()
+      })
+    };
+    
+    console.log(body);
+    
+
+    return new Promise((res, rej) => {
+      this.http.post(`${this._url}${this._paths.products}`, body.toString(), httpOptions)
         .subscribe((data: any) => {
           data.status.error ? rej(data.message) : res(data);
         }, (error: any) => rej(error));

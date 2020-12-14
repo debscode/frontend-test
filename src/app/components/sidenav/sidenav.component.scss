@@ -62,10 +62,17 @@ h1.example-app-name {
 
 .user {
     width: 100%;
-    text-align: right;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
 }
 
 .user-img {
     width: 2.5rem;
-    margin-right: 0.5rem;
+}
+
+.app-name {
+    @media screen and(max-width: 450px) {
+        display: none;
+    }
 }

@@ -1,11 +1,16 @@
-<h1>Productos</h1>
+<div>
+    <h1>Productos</h1>
+    <div class="btn-create">
+        <button class="add-btn" type="button" mat-button (click)="createProduct()"><mat-icon>add</mat-icon> Crear producto</button>
+    </div>
+</div>
 <mat-form-field>
     <mat-label>Filtrar</mat-label>
     <input matInput (keyup)="applyFilter($event)" placeholder="Ej. Gaseosa" #input>
 </mat-form-field>
 
-<div class="mat-elevation-z8">
-    <table mat-table [dataSource]="dataSource" matSort>
+<div class="mat-elevation-z8 data-container">
+    <table class="data-table" mat-table [dataSource]="dataSource" matSort>
 
         <!-- ID Column -->
         <ng-container matColumnDef="id">

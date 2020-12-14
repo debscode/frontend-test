@@ -1,1 +1,33 @@
-<h1>Administración de usuario</h1>
+<h1>Perfil</h1>
+<form autocomplete="off" class="user-form" [formGroup]="form" (ngSubmit)="submit()" *ngIf="!loading">
+    <mat-form-field appearance="legacy" class="item-form-field">
+        <mat-label>Nombre</mat-label>
+        <input matInput class="form-control" id="namelogin" aria-describedby="nameHelp" name="namelogin" formControlName="name">
+        <mat-error *ngIf="nameRInvalid">
+            Nombre es requerido
+        </mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="legacy" class="item-form-field">
+        <mat-label>Apellidos</mat-label>
+        <input matInput class="form-control" id="last_name" aria-describedby="last_nameHelp" name="last_name" formControlName="last_name">
+        <mat-error *ngIf="lastNameRInvalid">
+            Apellidos son requeridos
+        </mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="legacy" class="item-form-field">
+        <mat-label>Correo</mat-label>
+        <input matInput class="form-control" id="emaillogin" aria-describedby="emailHelp" name="email" formControlName="email">
+        <mat-error *ngIf="emailRInvalid">
+            Correo es requerido
+        </mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="legacy" class="item-form-field">
+        <mat-label>Contraseña</mat-label>
+        <input matInput type="password" class="form-control" id="password" name="password" formControlName="password">
+        <mat-error *ngIf="passwordRInvalid">
+            Contraseña es requerida
+        </mat-error>
+    </mat-form-field>
+    <button type="submit" mat-raised-button *ngIf="!loading">Actualizar</button>
+    <mat-spinner *ngIf="loading"></mat-spinner>
+</form>

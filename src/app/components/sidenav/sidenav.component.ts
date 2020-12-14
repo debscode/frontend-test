@@ -10,7 +10,12 @@ import { Router } from '@angular/router';
 export class SidenavComponent implements OnDestroy {
   mobileQuery: MediaQueryList;
 
-  fillerNav = [{ label: 'Dashboard', path: '/main/dashboard' }, { label: 'Información', path: '/main/information' }];
+  email = localStorage.getItem('email');
+
+  fillerNav = [
+    { label: 'Dashboard', path: '/main/dashboard', icon: 'dashboard' },
+    { label: 'Información', path: '/main/information', icon: 'wysiwyg' }
+  ];
 
   private _mobileQueryListener: () => void;
 

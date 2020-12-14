@@ -1,8 +1,12 @@
-<h1>Total Productos {{totalProducts}}</h1>
-<div style="display: block;">
-    <canvas baseChart [data]="pieChartData" [labels]="pieChartLabels" [chartType]="pieChartType" [options]="pieChartOptions" [plugins]="pieChartPlugins" [legend]="pieChartLegend">
-    </canvas>
-</div>
-<div *ngFor="let product of products" class="div-proiducts">
-    <mat-card>{{product.name}}</mat-card>
+<div *ngIf="!loading">
+    <h1>Total Productos {{totalProducts}}</h1>
+    <div class="pie-chart">
+        <canvas baseChart [data]="pieChartData" [labels]="pieChartLabels" [chartType]="pieChartType" [options]="pieChartOptions" [plugins]="pieChartPlugins" [legend]="pieChartLegend">
+        </canvas>
+    </div>
+    <div *ngFor="let product of products" class="div-proiducts">
+        <mat-card>
+            <mat-icon>task_alt</mat-icon> {{product.name}}
+        </mat-card>
+    </div>
 </div>

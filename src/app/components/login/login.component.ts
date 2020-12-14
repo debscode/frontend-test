@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrsService } from 'src/app/services/toastrs.service';
 import { UserService } from 'src/app/services/user.service';
 import { Login, User } from 'src/app/models';
-import {Router} from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -87,10 +87,11 @@ export class LoginComponent implements OnInit {
     };
     try {
       const res: any = await this.userService.login(request);
-      localStorage.setItem('token', res.token);
-      localStorage.setItem('email', res.user.email);
+      this.userService.saveToken(res.token);
+      this.userService.saveEmail(res.user.email);
+      this.userService.saveUserId(res.user.id);
       this.toastrService.success("Inicio de sesión exitoso");
-      this.router.navigateByUrl('main');      
+      this.router.navigateByUrl('main');
     } catch (error: any) {
       this.toastrService.error("Correo o contraseña incorrectos");
     }
