@@ -77,7 +77,13 @@ export class InformationComponent implements OnInit {
    * @param id 
    */
   openDialogEdit(id): void {
-    const product = this.dataSource.data.find(prod => prod.id === id);
+    let product;
+    if (id) {
+      product = this.dataSource.data.find(prod => prod.id === id);
+    }else{
+      product = '';
+    }
+
     console.log(product);
     const dialogRef = this.dialog.open(InformationDialogComponent, {
       width: '250px',

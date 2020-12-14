@@ -126,8 +126,9 @@ export class LoginComponent implements OnInit {
     };
     try {
       const res: any = await this.userService.register(request);
-      this.toastrService.success("Registro exitoso");
-      this.router.navigateByUrl('main');
+      this.toastrService.success("Registro exitoso, por favor inicia session");
+      this.isRegister = false;
+      this.router.navigateByUrl('main/dashboard');
     } catch (error: any) {
       this.toastrService.error("Ocurrio un error por favor intenta nuevamente");
     }
